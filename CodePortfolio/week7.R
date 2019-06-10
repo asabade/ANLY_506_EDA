@@ -2,64 +2,79 @@
 
 library(tidyverse)
 
-#READ CSV
+#DATA
 
-heights <- read_csv("C:/Users/aks23/Documents/Harrisburg University/Anly 506/heights.csv")
+mpg
 
-#INLINE READ
+#GGPLOT
 
-read_csv("a,b,c\n4,5,6", col_names = c("Col 1", "Col 2", "Col 3"))
+ggplot(data = mpg) + 
 
+  geom_point(mapping = aes(x = displ, y = hwy))
 
+# COL CLASS
 
-# Defining na values 
+ggplot(data = mpg) + 
 
-read_csv("a,b,c\n4,5,.", na = ".")
+  geom_point(mapping = aes(x = displ, y = hwy, color = class))
 
-#PARSING VECTOR
+#SIZE
 
-str(parse_logical(c("TRUE", "FALSE", "NA")))
+ggplot(data = mpg) + 
 
-#PARSING . FOR EMPTY
+  geom_point(mapping = aes(x = displ, y = hwy, size = class))
 
-parse_integer(c("1", "231", ".", "456"), na = ".")
+#COLOR
 
-#PARSING NUMBERS
+ggplot(data = mpg) + 
 
-parse_number("$5000")
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
 
-# PARSING
+#PLOTS INTO FACETS
 
-fruit <- c("apple", "banana")
+ggplot(data = mpg) + 
 
-parse_factor(c("apple", "banana"), levels = fruit)
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
 
+  facet_wrap(~ class, nrow = 2)
 
-parse_date("2011-01-19")
+# DRAW LINE
+ggplot(data = mpg) + 
 
+  geom_smooth(mapping = aes(x = displ, y = hwy, linetype = drv))
 
-guess_parser("2012-12-11")
+# POINT AND LINES
 
+ggplot(data = mpg) + 
 
-guess_parser("15:01")
+  geom_point(mapping = aes(x = displ, y = hwy)) +
 
+  geom_smooth(mapping = aes(x = displ, y = hwy))
 
-#READ_CSV
+# DRAW BARS
 
-TEMP <- read_csv(
-  
-  readr_example("TEMP.csv"), 
-  
-  col_types = cols(
-    
-    x = col_integer(),
-    
-    y = col_character()
-    
+ggplot(data = diamonds) + 
+
+  geom_bar(mapping = aes(x = cut))
+
+# BARS WITH COLOR
+
+ggplot(data = diamonds) + 
+
+  geom_bar(mapping = aes(x = cut, fill = cut))
+
+# show statistical summary
+
+ggplot(data = diamonds) + 
+
+  stat_summary(
+
+    mapping = aes(x = cut, y = depth),
+
+    fun.ymin = min,
+
+    fun.ymax = max,
+
+    fun.y = median
+
   )
-
-  
-#WRITE CSV
-  
-  write_csv(challenge, "TEMP.csv")
-  
