@@ -1,65 +1,76 @@
-#LIBRARY IMPORT
+#IMPORT LIBRARY
 
 library(tidyverse)
 
-#READ CSV
+#NEW VARIABLE
 
-heights <- read_csv("C:/Users/aks23/Documents/Harrisburg University/Anly 506/heights.csv")
+table1 %>% mutate(rate = cases / population * 10000)
 
-#INLINE READ
+#COMPUTE CASES
 
-read_csv("a,b,c\n4,5,6", col_names = c("Col 1", "Col 2", "Col 3"))
+table1 count(year, wt = cases)
 
+#VIASUALIZA
 
+library(ggplot2)
 
-# Defining na values 
-
-read_csv("a,b,c\n4,5,.", na = ".")
-
-#PARSING VECTOR
-
-str(parse_logical(c("TRUE", "FALSE", "NA")))
-
-#PARSING . FOR EMPTY
-
-parse_integer(c("1", "231", ".", "456"), na = ".")
-
-#PARSING NUMBERS
-
-parse_number("$5000")
-
-# PARSING
-
-fruit <- c("apple", "banana")
-
-parse_factor(c("apple", "banana"), levels = fruit)
-
-
-parse_date("2011-01-19")
-
-
-guess_parser("2012-12-11")
-
-
-guess_parser("15:01")
-
-
-#READ_CSV
-
-TEMP <- read_csv(
+ggplot(table1, aes(year, cases)) + 
   
-  readr_example("TEMP.csv"), 
+  geom_line(aes(group = country), colour = "grey50") + 
   
-  col_types = cols(
-    
-    x = col_integer(),
-    
-    y = col_character()
-    
-  )
+  geom_point(aes(colour = country))
 
+
+
+# Gathering columns into a new pair of variables
+
+table4a %>% 
   
-#WRITE CSV
+  gather(`1999`, `2000`, key = "year", value = "cases")
+
+
+
+
+
+table4b %>% 
   
-  write_csv(challenge, "TEMP.csv")
+  gather(`1999`, `2000`, key = "year", value = "population")
+
+
+table3 %>% 
   
+  separate(rate, into = c("cases", "population"), sep = "/")
+
+
+table3 %>% 
+  
+  separate(year, into = c("century", "year"), sep = 2)
+
+
+table5 %>% 
+  
+  unite(new, century, year)
+
+# create a new data
+
+stocks <- tibble(
+  
+  year   = c(2015, 2015, 2015, 2015, 2016, 2016, 2016),
+  
+  qtr    = c(   1,    2,    3,    4,    2,    3,    4),
+  
+  return = c(1.88, 0.59, 0.35,   NA, 0.92, 0.17, 2.66)
+  
+)
+
+stocks %>% 
+  
+  spread(year, return)
+
+#MISSING VALUE
+
+stocks %>% 
+  
+  spread(year, return) %>% 
+  
+  gather(year, return, `2015`:`2016`, na.rm = TRUE)
