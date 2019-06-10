@@ -1,65 +1,53 @@
-#LIBRARY IMPORT
+#
+
+library(nycflights13)
 
 library(tidyverse)
 
-#READ CSV
+#FLIGHTS DATA
 
-heights <- read_csv("C:/Users/aks23/Documents/Harrisburg University/Anly 506/heights.csv")
+flights
 
-#INLINE READ
+View(flights)
 
-read_csv("a,b,c\n4,5,6", col_names = c("Col 1", "Col 2", "Col 3"))
-
-
-
-# Defining na values 
-
-read_csv("a,b,c\n4,5,.", na = ".")
-
-#PARSING VECTOR
-
-str(parse_logical(c("TRUE", "FALSE", "NA")))
-
-#PARSING . FOR EMPTY
-
-parse_integer(c("1", "231", ".", "456"), na = ".")
-
-#PARSING NUMBERS
-
-parse_number("$5000")
-
-# PARSING
-
-fruit <- c("apple", "banana")
-
-parse_factor(c("apple", "banana"), levels = fruit)
+#OBSERVATIONS
 
 
-parse_date("2011-01-19")
+feb1 <- filter(flights, month == 2, day == 1)
+
+filter(flights, month == 10 | month == 9)
+
+filter(flights, arr_delay <= 100, dep_delay <= 100)
 
 
-guess_parser("2012-12-11")
+
+arrange(flights, desc(dep_delay))
 
 
-guess_parser("15:01")
+select(flights, year, month, day)
+
+flights_sml <- select(flights, 
+
+                      year:day, 
+
+                      ends_with("delay"), 
+
+                      distance, 
+
+                      air_time
+
+)
+
+mutate(flights_sml,
+
+       gain = dep_delay - arr_delay,
+
+       speed = distance / air_time * 60
+
+)
 
 
-#READ_CSV
+by_day <- group_by(flights, year, month, day)
 
-TEMP <- read_csv(
-  
-  readr_example("TEMP.csv"), 
-  
-  col_types = cols(
-    
-    x = col_integer(),
-    
-    y = col_character()
-    
-  )
 
-  
-#WRITE CSV
-  
-  write_csv(challenge, "TEMP.csv")
-  
+summarise(by_day, delay = mean(dep_delay, na.rm = TRUE))
