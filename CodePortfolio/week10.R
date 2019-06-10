@@ -1,65 +1,37 @@
 #LIBRARY IMPORT
 
-library(tidyverse)
+#DATA SIMULATION
 
-#READ CSV
+set.seed(1234)
 
-heights <- read_csv("C:/Users/aks23/Documents/Harrisburg University/Anly 506/heights.csv")
+x <- rnorm(12, mean = rep(1:3, each = 4), sd = 0.2)
 
-#INLINE READ
+y <- rnorm(12, mean = rep(c(1, 2, 1), each = 4), sd = 0.2)
 
-read_csv("a,b,c\n4,5,6", col_names = c("Col 1", "Col 2", "Col 3"))
+plot(x, y, col = "blue", pch = 19, cex = 2)
 
+text(x + 0.05, y + 0.05, labels = as.character(1:12))
 
+#DATAFRAME CREATION
 
-# Defining na values 
+dataFrame <- data.frame(x, y)
 
-read_csv("a,b,c\n4,5,.", na = ".")
+#K-MEANS WITH 3 CLUSTURES
 
-#PARSING VECTOR
+kmeans <- kmeans(dataFrame, centers = 3)
 
-str(parse_logical(c("TRUE", "FALSE", "NA")))
+#RESULTS
 
-#PARSING . FOR EMPTY
+names(kmeans)
 
-parse_integer(c("1", "231", ".", "456"), na = ".")
+kmeans$cluster
 
-#PARSING NUMBERS
+#EXAMPLE1
 
-parse_number("$5000")
+set.seed(1234)
 
-# PARSING
+dataMatrix <- as.matrix(dataFrame)[sample(1:12), ]
 
-fruit <- c("apple", "banana")
+kmeans <- kmeans(dataMatrix, centers = 3)
 
-parse_factor(c("apple", "banana"), levels = fruit)
-
-
-parse_date("2011-01-19")
-
-
-guess_parser("2012-12-11")
-
-
-guess_parser("15:01")
-
-
-#READ_CSV
-
-TEMP <- read_csv(
-  
-  readr_example("TEMP.csv"), 
-  
-  col_types = cols(
-    
-    x = col_integer(),
-    
-    y = col_character()
-    
-  )
-
-  
-#WRITE CSV
-  
-  write_csv(challenge, "TEMP.csv")
-  
+par(mfrow = c(1, 2))
