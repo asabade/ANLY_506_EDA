@@ -1,0 +1,169 @@
+---
+title: "Exploratory Data Analytics Final Report Akshay Sabade"
+author: "Akshay Sabade"
+date: "June 16, 2019"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Initialize the Required Libraries
+```{r}
+library(C50)
+library(naivebayes)
+library(caret)
+library (gmodels)
+library (MASS)
+library(robustbase)
+library(tidyverse)
+library(kernlab)
+library(rpart)
+library(rpart.plot)
+library(ggplot2)
+library(yarrr)
+```
+
+```{r}
+gapminder <- read.csv("~/Harrisburg University/Anly 506/gapminder.csv")
+str(gapminder)
+```
+
+```{r echo = FALSE}
+r)summary(gapminde
+```
+
+```{r}
+head(gapminder)
+```
+
+```{r}
+hist(gapminder$life)
+```
+
+```{r echo = TRUE}
+table(gapminder$Country)
+```
+
+
+
+```{r echo = TRUE}
+hist(gapminder$Year)
+```
+
+```{r echo = FALSE}
+data <- data.frame(gapminder)
+class(data)
+```
+
+
+```{r}
+```
+
+
+#No of variables
+#attributes
+
+```{r echo = FALSE}
+NumberofVariables <- ncol(gapminder)
+Attributes <- sapply(gapminder, class)
+Observations <- nrow(gapminder)
+```
+
+
+
+#There are 6 variables in the data set.
+
+#There are 4208 of observations in the data set.
+
+
+```{r echo = FALSE}
+
+sapply(gapminder, function(x) sum(is.na(x)))
+sapply(gapminder, function(x) sum(is.na(x)))
+
+```
+
+# Removing the missing values
+
+```{r echo = FALSE}
+gapminder <- na.omit(gapminder)
+```
+
+## Questions to Answer
+  
+1. What is the mean life expectan?
+  
+2. various regions life expentancy sudden increase?
+  
+3. Is there a relation between life expentancy and income?
+
+
+```{r echo = FALSE}
+Trend <- ggplot(gapminder) + geom_smooth(aes(Year, life))
+
+LifeTrend <- Trend + labs(title = "Relationship between life expectancy and time", subtitle = "Figure 1: Increase in life expetancy", x = "Year", y = "Life Expectancy")
+LifeTrend
+```
+
+
+
+
+
+
+
+
+
+
+
+
+## 2. Various regions life expentancy sudden increase?
+
+
+
+```{r echo = FALSE}
+
+gapminder %>%
+  
+  group_by(region, Year) %>%
+  
+  summarise(life=median(life)) %>%
+  
+  ggplot(aes(x=Year, y=life, color=region)) +
+  
+  geom_line(size=1) + 
+  
+  geom_point(size=1.5)+ labs(title = "Life expectancy over time", subtitle = "Figure 6", x = "Life", y = "Years")
+
+
+
+```
+
+
+
+## 3. Relationship between life expectancy and Income
+
+```{r echo = FALSE}
+
+Life <- ggplot(data=gapminder,
+                      
+                      aes(x=income, y=life))
+
+Life+ geom_point(aes(color=region)) +
+  
+  geom_smooth(method="loess") + labs(title = "Life expectancy for different continents over time", subtitle = "Life Expectancy and Income.", x = "Life", y = "Years")
+Life
+```
+
+
+#COnclusion -> There is DIrect relationship between income and life expentancy
+
