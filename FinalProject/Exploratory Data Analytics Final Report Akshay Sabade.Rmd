@@ -3,12 +3,12 @@ title: "Exploratory Data Analytics Final Report Akshay Sabade"
 author: "Akshay Sabade"
 date: "June 16, 2019"
 output:
-  html_document:
-    df_print: paged
+  pdf_document: default
+  html_document: default
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup, include=TRUE}
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ## R Markdown
@@ -38,15 +38,15 @@ gapminder <- read.csv("~/Harrisburg University/Anly 506/gapminder.csv")
 str(gapminder)
 ```
 
-```{r echo = FALSE}
-r)summary(gapminde
+```{r echo = TRUE}
+summary(gapminder)
 ```
 
-```{r}
+```{r echo = TRUE}
 head(gapminder)
 ```
 
-```{r}
+```{r echo = TRUE}
 hist(gapminder$life)
 ```
 
